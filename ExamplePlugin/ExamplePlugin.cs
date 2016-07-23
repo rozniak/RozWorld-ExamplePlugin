@@ -30,31 +30,18 @@ namespace ExamplePlugin
 
         public ExamplePlugin()
         {
-            // Attach core start up event to the server's plugin startup event
+            // Attach core start and stop events for loading and unloading this plugin
             RwCore.Server.Starting += new EventHandler(Server_Starting);
+            RwCore.Server.Stopping += new EventHandler(Server_Stopping);
         }
 
 
-        void Server_Starting(object sender, EventArgs e)
-        {
-            // Register our test command, /hello
-            RwCore.Server.Logger.Out("[PLUGIN] This is an example plugin starting up!");
-            RwCore.Server.RegisterCommand("hello", CommandHello, "Test command.", "/hello");
-
-            // Set up broadcast timer
-            BroadcastTimer = new Timer(5000);
-            BroadcastTimer.Elapsed += new ElapsedEventHandler(BroadcastTimer_Elapsed);
-            BroadcastTimer.Enabled = true;
-            BroadcastTimer.Start();
-        }
-
-
-        void BroadcastTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void BroadcastTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             RwCore.Server.BroadcastMessage("Hello world!");
         }
 
-        bool CommandHello(ICommandCaller sender, IList<string> args)
+        private bool CommandHello(ICommandCaller sender, IList<string> args)
         {
             // This is the command function, will be called whenever /hello is sent
 
@@ -67,6 +54,27 @@ namespace ExamplePlugin
             // More advanced stuff can be done of course, this is just a very small example
 
             return true;
+        }
+
+        private void Server_Stopping(object sender, EventArgs e)
+        {
+            // Stop timer and detach its event
+            BroadcastTimer.Stop();
+            BroadcastTimer.Elapsed -= BroadcastTimer_Elapsed;
+        }
+
+
+        private void Server_Starting(object sender, EventArgs e)
+        {
+            // Register our test command, /hello
+            RwCore.Server.Logger.Out("[PLUGIN] This is an example plugin starting up!");
+            RwCore.Server.RegisterCommand("hello", CommandHello, "Test command.", "/hello");
+
+            // Set up broadcast timer
+            BroadcastTimer = new Timer(5000);
+            BroadcastTimer.Elapsed += new ElapsedEventHandler(BroadcastTimer_Elapsed);
+            BroadcastTimer.Enabled = true;
+            BroadcastTimer.Start();
         }
     }
 }
