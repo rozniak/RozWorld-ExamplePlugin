@@ -43,7 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExamplePlugin.cs" />
+    <Compile Include="02-ExamplePlugin-HelloCommand.cs" />
+    <Compile Include="01-ExamplePlugin-Loading.cs" />
+    <Compile Include="03-ExamplePlugin-ChatHook.cs" />
+    <Compile Include="04-ExamplePlugin-PracticalUse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
