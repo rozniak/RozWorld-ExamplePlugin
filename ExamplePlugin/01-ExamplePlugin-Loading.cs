@@ -68,7 +68,7 @@ namespace ExamplePlugin
             // You can use RwCore.Server.Logger.Out in order to output messages directly into
             // the server logger. It would be helpful for you to put in the name of your plugin
             // so that server administrators know who generated the message.
-            RwCore.Server.Logger.Out("[PLUGIN] ExamplePlugin: This is an example plugin starting up!");
+            RwCore.Server.Logger.Out("ExamplePlugin: This is an example plugin starting up!");
 
 
             // Here we register the commands that this plugin will use: /broadcaster, /hello and /hooktest
@@ -79,7 +79,8 @@ namespace ExamplePlugin
 
 
             // FOR LESSON 4:
-            // Here we will attach the event for the BroadcastTimer:
+            // Here we will create, then attach the event for the BroadcastTimer:
+            BroadcastTimer = new Timer();
             BroadcastTimer.Elapsed += new ElapsedEventHandler(BroadcastTimer_Elapsed);
 
             // Here we will populate the broadcasting strings from a local folder on the disk.
